@@ -25,7 +25,7 @@ $(function(){
 	$("#text,#p1,#p2").keyup(evaluate);
 	$("#write").click(function(){
 		states.push($("#text,.action:disabled,#p1,#p2,#preview").map((i,a)=>$(a).val()));
-		$("#states").append('<label class="state">' + (states.length+1) +')'+ $("#text").val() + ' -> ' + $("#preview").val() + "</label><br>");
+		$("#states").append('<label class="state">' + (states.length) +')'+ $("#text").val() + ' -> ' + $("#preview").val() + "</label><br>");
 		$("label").unbind('click').click(loadState);
 		$("#text").val($("#preview").val());
 	})
