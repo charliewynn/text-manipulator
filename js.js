@@ -15,7 +15,7 @@ function loadState(){
 	$("#p1").val(state[2]);
 	$("#p2").val(state[3]);
 	$("#preview").val(state[4]);
-	$(".action[value="+state[1]+"]").click();
+	$(".action[value="+(state[1]||'nothing')+"]").click();
 }
 
 $(function(){
@@ -25,7 +25,7 @@ $(function(){
 	$("#text,#p1,#p2").keyup(evaluate);
 	$("#write").click(function(){
 		states.push($("#text,.action:disabled,#p1,#p2,#preview").map((i,a)=>$(a).val()));
-		$("#states").append('<label class="state">' + (states.length) +')'+ $("#text").val() + ' -> ' + $("#preview").val() + "</label><br>");
+		$("#states").append('<label style="color:'+'#' + Math.random().toString(16).slice(2, 8)+'" class="state">' + (states.length) +')'+ $("#text").val() + ' -> ' + $("#preview").val() + "</label><br>").scrollTop($("#states").prop("scrollHeight"));;
 		$("label").unbind('click').click(loadState);
 		$("#text").val($("#preview").val());
 	})
