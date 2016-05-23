@@ -1,5 +1,5 @@
 var states = [];
-
+var alpha = "abcdefghijklmnopqrstuvwxyz";
 var a;
 
 
@@ -39,7 +39,9 @@ function doAction(el){
 	$(this).prop("disabled",true);
 	log(this.value);
 
+	$("#p1").hide();
 	$("#p2").hide();
+	if(['map','reduce','split','join','replace','other'].indexOf(this.value) > -1) $("#p1").show();
 	if(['reduce','replace','other'].indexOf(this.value) > -1) $("#p2").show();
 
 	evaluate();
@@ -61,13 +63,16 @@ function evaluate(){
 	try{
 		if(fn == 'map')     output = value.map(eval($("#p1").val()));
 		if(fn == 'reduce')  output = value.reduce(eval($("#p1").val()),eval($("#p2").val()));
-		if(fn == 'split')   output = value.split(eval('"'+$("#p1").val()+'"'));
+		if(fn == 'split')   output = (value+'').split(eval('"'+$("#p1").val()+'"'));
 		if(fn == 'join')    output = value.join(eval('"'+$("#p1").val()+'"'));
-		if(fn == 'replace') output = value.replace(eval($("#p1").val()));
-		if(fn == 'other')   output = eval("value = "+ $("#p1").val() + $("#text").val() +$("#p2").val() );
+		if(fn == 'replace') output = value.replace(eval($("#p1").val()), eval($("#p2").val()));
+		if(fn == 'other')   output = eval( $("#p1").val() + $("#text").val() +$("#p2").val() );
+		if(fn == 'A=>1 B=>2')   output = (value+'').split('').map(a=>alpha.indexOf(a.toLowerCase())+1).join('');
+		if(fn == '1=>A 2=>B')   output = (value+'').split('').map(a=>alpha[a-1]).join('');
 	} catch(e){
 		log("Error: " + e);
 	}
-
-	$("#preview").val(JSON.stringify(output));
+	if(typeof output != 'string')
+		output = JSON.stringify(output);
+	$("#preview").val(output);
 }
